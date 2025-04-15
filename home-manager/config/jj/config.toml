@@ -1,0 +1,8 @@
+[user]
+name = "Kristoffer Balintona"
+email = "krisbalintona@gmail.com"
+
+[ui]
+editor = "nvim"
+conflict-marker-style = "git"
+diff.format = "git"
