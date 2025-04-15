@@ -7,13 +7,8 @@
   ...
 }:
 {
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
-
   # * Imports
-  imports = [
-    <nixos-wsl/modules> # include NixOS-WSL modules
-  ];
+  imports = [ ];
 
   # * Nix
   nix =
@@ -24,7 +19,7 @@
       settings = {
         experimental-features = "nix-command flakes"; # Enable flakes and 'nix' command
         # flake-registry = ""; # Opinionated: disable global registry
-        nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
+        # nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
       };
       channel.enable = false; # Opinionated: disable channels because we manage package sources through flakes
 
@@ -41,17 +36,7 @@
     overlays = [ ];
   };
 
-  # * Networking
-  networking.hostName = "WSL-NixOS";
-
   # * WSL2
-  # See https://nix-community.github.io/NixOS-WSL/options.html.
-  wsl = {
-    enable = true;
-    defaultUser = "krisbalintona";
-    startMenuLaunchers = true;
-  };
-
   # 2025-04-12: Workaround due to a bug in WSLg causing issues using GUI tools
   # in Wayland.  Solution taken from
   # https://github.com/microsoft/WSL/issues/11261#issuecomment-2011901398.

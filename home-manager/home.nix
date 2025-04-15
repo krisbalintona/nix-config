@@ -19,17 +19,23 @@
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.05";
+  home.stateVersion = "24.05";
 
   # * Imports
   imports = [ ];
 
   # * Nixpkgs
   nixpkgs = {
-    overlays = [ ];
+    overlays = [
+      (import (
+        builtins.fetchTarball {
+          url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+          sha256 = "05giy64csmv11p12sd6rcfdgfd1yd24w0amfmxm9dhxwizgs2c0g";
+        }
+      ))
+    ];
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = _: true; # Workaround for https://github.com/nix-community/home-manager/issues/2942
     };
   };
 

@@ -1,44 +1,65 @@
 {
-  description = "Your new nix config";
+  description = "My nix config";
 
   inputs = {
-    # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-
-    # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-  in {
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      # FIXME replace with your hostname
-      your-hostname = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        # > Our main nixos configuration file <
-        modules = [./nixos/configuration.nix];
-      };
-    };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixos-wsl,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+    in
+    {
+      networking.hostName = "NixOS-WSL";
 
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      # FIXME replace with your username@hostname
-      "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        # > Our main home-manager configuration file <
-        modules = [./home-manager/home.nix];
+      # * NixOS
+      # Available through:
+      #   nixos-rebuild --flake .#machine-hostname
+      nixosConfigurations = {
+        # ** WSL system
+        NixOS-WSL = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # From
+            # https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html
+            nixos-wsl.nixosModules.default
+            {
+              system.stateVersion = "24.11";
+              # See https://nix-community.github.io/NixOS-WSL/options.html for
+              # available NixOS-WSL options.
+              wsl = {
+                enable = true;
+                defaultUser = "krisbalintona";
+                startMenuLaunchers = true;
+              };
+            }
+            ./nixos/configuration.nix
+          ];
+        };
+      };
+
+      # * Home-manager
+      # Home-manager configuration.  Available through:
+      #   home-manager --flake .#my-username@machine-hostname
+      homeConfigurations = {
+        "krisbalintona@NixOS-WSL" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            ./home-manager/home.nix
+          ];
+        };
       };
     };
-  };
 }
