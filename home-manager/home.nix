@@ -142,7 +142,7 @@
         src = pkgs.fetchFromGitHub {
           owner = "emacs-mirror";
           repo = "emacs";
-          rev = "8c411381c69";
+          rev = "6f1e317764d";
           # Can find the sha256 by either passing an empty string and seeing
           # what home-manager switch reports the correct sha256 to be, or
           # running in the CLI something in the form of
@@ -152,23 +152,21 @@
           # For example:
           #
           #   nix flake prefetch github:emacs-mirror/emacs/8c411381c69
-          sha256 = "sha256-E20O3pySvO1WmOFyyg7744sbwf50nvlPtnbwf7lWZDA=";
+          sha256 = "sha256-5iUcwwDXbZFNEtkU88rnPs5u5nlVnvr3ByxILfrwpp0=";
         };
         # Additional configure flags
-        configureFlags = (old.configureFlags or [ ]) ++ [
-        ];
+        configureFlags = (old.configureFlags or [ ]) ++ [ ];
         # Extra build inputs
-        buildInputs = (old.buildInputs or [ ]) ++ [
-        ];
+        buildInputs = (old.buildInputs or [ ]) ++ [ ];
       });
 
-      config = "/home/krisbalintona/.emacs.d/emacs-config.org";
-      defaultInitFile = false;
+      config = "/home/krisbalintona/.emacs.d/init.el";
+      defaultInitFile = true; # Set to false if config is set to my .org file
       alwaysEnsure = true;
       alwaysTangle = false;
 
       extraEmacsPackages = epkgs: [
-        epkgs.jinx
+	epkgs.jinx # Necessary to correctly compile its C module
         epkgs.denote
       ];
 
