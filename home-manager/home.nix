@@ -139,6 +139,9 @@
   programs.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
+      # See https://jeffkreeftmeijer.com/emacs-configuration/#installation for
+      # examples of the various ways to configuration how Emacs can be
+      # configured and installed with emacs-overlay
       package = pkgs.emacs-git.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
           owner = "emacs-mirror";
@@ -147,24 +150,29 @@
           # Can find the sha256 by either passing an empty string and seeing
           # what home-manager switch reports the correct sha256 to be, or
           # running in the CLI something in the form of
-          #
           #   nix flake prefetch <source>:<owner>/<repo>/<rev>
-          #
           # For example:
-          #
           #   nix flake prefetch github:emacs-mirror/emacs/8c411381c69
           sha256 = "sha256-5iUcwwDXbZFNEtkU88rnPs5u5nlVnvr3ByxILfrwpp0=";
         };
+        # C compile flags
+        NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -O2 -march=native";
         # Additional configure flags
         configureFlags = (old.configureFlags or [ ]) ++ [
-          # 2025-04-16: These two flags are necessary for supporting the alpha
-          # frame parameter.  See
-          # https://github.com/nix-community/emacs-overlay/issues/347#issuecomment-1664726327
-          "--with-x-toolkit=no"
+          "--with-native-compilation"
+          "--with-imagemagick"
           "--with-cairo"
+          # For supporting the alpha frame parameter.  See also
+          # https://github.com/nix-community/emacs-overlay/issues/347#issuecomment-1664726327.
+          # I am not sure if this is the only solution; perhaps the lucid
+          # x-toolkit would work (perhaps alongside other flags...)
+          "--with-x-toolkit=gtk3"
         ];
         # Extra build inputs
-        buildInputs = (old.buildInputs or [ ]) ++ [ ];
+        buildInputs = (old.buildInputs or [ ]) ++ [
+          pkgs.imagemagick # For --with-imagemagick
+          pkgs.gtk3 # For --with-x-toolkit=gtk3
+        ];
       });
 
       config = "/home/krisbalintona/.emacs.d/emacs-config.org";
