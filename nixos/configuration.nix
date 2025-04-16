@@ -10,6 +10,16 @@
   # * Host name
   networking.hostName = "NixOS-WSL";
 
+  # * Time zone
+  # TODO 2025-04-16: I manually set this here because I could not get tzupdate
+  # nor automatic-timezoned to work.  The former I'm not sure why; for the
+  # latter, there was the issue of Mozilla shutting down their geolocation
+  # provider service for geoclue (which automatic-timezoned used by default),
+  # but even after changing geoclue to use a working provider, it still didn't
+  # work.  I suspect this is only applicable to WSL2.  Find a fix or
+  # alternative.
+  time.timeZone = "America/Chicago";
+
   # * Imports
   imports = [ ];
 
@@ -75,7 +85,6 @@
     x11_ssh_askpass
     tree
     ripgrep
-    automatic-timezoned
     unzip
     xorg.xmodmap
 
@@ -254,17 +263,6 @@
       };
     };
   };
-
-  # ** Geoclue 2
-  # 2025-04-12: Change the location provider.  A manual implementation of the
-  # fix described in this PR: https://github.com/NixOS/nixpkgs/pull/391845
-  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
-
-  # ** Automatic-timezoned
-  # Automatically set time zone according to location.  Uses geoclue2; see that
-  # packages options for configuration of how automatic-timezoned retrieves its
-  # data.
-  services.automatic-timezoned.enable = true;
 
   # ** Dictd
   services.dictd.enable = true;
