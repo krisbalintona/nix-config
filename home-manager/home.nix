@@ -141,7 +141,14 @@
     package = pkgs.emacsWithPackagesFromUsePackage {
       # See https://jeffkreeftmeijer.com/emacs-configuration/#installation for
       # examples of the various ways to configuration how Emacs can be
-      # configured and installed with emacs-overlay
+      # configured and installed with emacs-overlay.
+      #
+      # For the source code emacs-overlay uses for its various emacs packages,
+      # see
+      # https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix.
+      # To see the options th nixpkgs emacs has (which emacs-overlay uses
+      # internally; might be useful for creating my own builds), see
+      # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/pkgs/applications/editors/emacs/make-emacs.nix.
       package = pkgs.emacs-git.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
           owner = "emacs-mirror";
