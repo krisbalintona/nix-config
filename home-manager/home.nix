@@ -95,6 +95,8 @@
   };
 
   # * Programs
+
+  # ** Git
   programs.git = {
     enable = true;
     userEmail = "krisbalintona@gmail.com";
@@ -104,12 +106,14 @@
     };
   };
 
+  # ** Ssh
   programs.ssh = {
     enable = true;
     addKeysToAgent = "yes";
     forwardAgent = true;
   };
 
+  # ** Fish
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -135,6 +139,7 @@
     ];
   };
 
+  # ** Emacs
   services.emacs.package = pkgs.emacsGit; # Use emacs-overlay for the emacs daemon
   programs.emacs = {
     enable = true;
