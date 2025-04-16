@@ -7,6 +7,7 @@
   ...
 }:
 {
+  # * Host name
   networking.hostName = "NixOS-WSL";
 
   # * Imports
@@ -274,5 +275,7 @@
   ];
 
   # * Programs
+
+  # ** Fish
   programs.fish.enable = true; # Need this for settings my user's default shell to fish
 }

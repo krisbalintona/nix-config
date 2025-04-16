@@ -155,18 +155,24 @@
           sha256 = "sha256-5iUcwwDXbZFNEtkU88rnPs5u5nlVnvr3ByxILfrwpp0=";
         };
         # Additional configure flags
-        configureFlags = (old.configureFlags or [ ]) ++ [ ];
+        configureFlags = (old.configureFlags or [ ]) ++ [
+          # 2025-04-16: These two flags are necessary for supporting the alpha
+          # frame parameter.  See
+          # https://github.com/nix-community/emacs-overlay/issues/347#issuecomment-1664726327
+          "--with-x-toolkit=no"
+          "--with-cairo"
+        ];
         # Extra build inputs
         buildInputs = (old.buildInputs or [ ]) ++ [ ];
       });
 
-      config = "/home/krisbalintona/.emacs.d/init.el";
-      defaultInitFile = true; # Set to false if config is set to my .org file
+      config = "/home/krisbalintona/.emacs.d/emacs-config.org";
+      defaultInitFile = false;
       alwaysEnsure = true;
       alwaysTangle = false;
 
       extraEmacsPackages = epkgs: [
-	epkgs.jinx # Necessary to correctly compile its C module
+        epkgs.jinx # Necessary to correctly compile its C module
         epkgs.denote
       ];
 
