@@ -52,6 +52,7 @@
       isNormalUser = true;
       openssh.authorizedKeys.keys = [ ];
       extraGroups = [ "wheel" ];
+      shell = pkgs.fish;
     };
   };
 
@@ -270,4 +271,5 @@
   ];
 
   # * Programs
+  programs.fish.enable = true; # Need this for settings my user's default shell to fish
 }
