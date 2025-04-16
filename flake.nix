@@ -20,8 +20,6 @@
       inherit (self) outputs;
     in
     {
-      networking.hostName = "NixOS-WSL";
-
       # * NixOS
       # Available through:
       #   nixos-rebuild --flake .#machine-hostname

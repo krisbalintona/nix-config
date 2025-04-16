@@ -7,6 +7,8 @@
   ...
 }:
 {
+  networking.hostName = "NixOS-WSL";
+
   # * Imports
   imports = [ ];
 
@@ -105,6 +107,7 @@
     libreoffice-still
     graphviz
   ];
+
   # *** Fonts
   fonts = {
     enableDefaultPackages = true;
