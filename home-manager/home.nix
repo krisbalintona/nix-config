@@ -66,6 +66,7 @@
     emacs-lsp-booster
     nixfmt-rfc-style
     nodePackages_latest.prettier
+    nil # Nix LSP server
   ];
 
   # * Files
