@@ -192,6 +192,16 @@ in
         name = "bass"; # Robust way to run bash commands in fish
         src = bass.src;
       }
+
+      {
+        name = "fish-abbreviation-tips "; # Give reminders for abbreviations and aliases I've defined
+        src = pkgs.fetchFromGitHub {
+          owner = "gazorby";
+          repo = "fish-abbreviation-tips";
+          rev = "master";
+          sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
+        };
+      }
     ];
     functions = {
       # 2025-04-17: Simple prompt that conveys key information.  Taken from
