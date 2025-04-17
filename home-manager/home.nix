@@ -185,6 +185,11 @@ in
   };
 
   # ** Jujutsu
+  # TODO 2025-04-17: Not sure if I still need something like the following for
+  # dynamic completions with fish:
+  #   if test -e /usr/bin/jj
+  #     jj util completion fish | source
+  #   end
   programs.jujutsu = {
     enable = true;
     settings = {
