@@ -378,7 +378,15 @@ in
       excludeTags = [ "deleted" ];
     };
     hooks = {
-      preNew = builtins.readFile ./config/notmuch/pre-new;
+      preNew = ''
+        #!/bin/bash
+
+        # pre-new --- Notmuch rules that run after notmuch new
+
+        # Actually delete emails with "deleted" tag. Taken from
+        # https://wiki.archlinux.org/title/Notmuch#Permanently_delete_emails.
+        notmuch search --output=files --format=text0 tag:deleted | ${pkgs.findutils}/bin/xargs -r0 rm
+      '';
       postNew = builtins.readFile ./config/notmuch/post-new;
     };
   };
