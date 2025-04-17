@@ -151,13 +151,12 @@ in
     addKeysToAgent = "yes";
     forwardAgent = true;
   };
+  # ** Atuin
+  programs.atuin.enable = true;
 
   # ** Fish
   programs.fish = {
     enable = true;
-    interactiveShellInit = ''
-      atuin init fish | source
-    '';
     plugins = with pkgs; [
       {
         name = "grc";
