@@ -440,7 +440,10 @@ in
     notmuch.enable = true;
   };
 
-  # Create lieer maildir structure for each account
+  # TODO 2025-04-17: Not sure if this is called before or after the first
+  # invocation of the lieer services.  If it is after, then I would need to
+  # restart those services (after these directories are created).
+  # Ensure the lieer maildir structure for each account exists
   home.activation = lib.mkMerge (
     map (name: {
       "createLieerMaildirActivation-${name}" = maildirSetupActivation name;
