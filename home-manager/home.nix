@@ -185,10 +185,14 @@ in
         name = "z"; # Frecency directory jumping
         src = z.src;
       }
-      {
-        name = "hydro"; # Simple prompt
-        src = hydro.src;
-      }
+      # 2025-04-17: Uses its own fish prompt that overrides the fish_vcs_prompt
+      # I define below.  Hydro's is too complicated to override to use jj, so
+      # I'll try disabling the prompt altogether for now.  Or until the jj
+      # integration upstream is released in a stable version.
+      # {
+      #   name = "hydro"; # Simple prompt
+      #   src = hydro.src;
+      # }
       {
         name = "bass"; # Robust way to run bash commands in fish
         src = bass.src;
