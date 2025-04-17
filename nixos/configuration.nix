@@ -309,5 +309,11 @@
   # ** Evince
   programs.evince.enable = true;
 
+  # ** FZF
+  programs.fzf = {
+    keybindings = true;
+    fuzzyCompletion = true; # Key bindings for popular shells
+  };
+
   # * End
 }

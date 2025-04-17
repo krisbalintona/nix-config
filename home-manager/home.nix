@@ -181,10 +181,6 @@ in
         name = "hydro";
         src = fishPlugins.hydro.src;
       }
-      {
-        name = "fzf-fish";
-        src = fishPlugins.fzf-fish.src;
-      }
     ];
   };
 
