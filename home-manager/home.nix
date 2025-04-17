@@ -361,6 +361,7 @@ in
 
       extraEmacsPackages = epkgs: [
         epkgs.jinx # Necessary to correctly compile its C module
+        epkgs.pdf-tools
         epkgs.denote
       ];
 
