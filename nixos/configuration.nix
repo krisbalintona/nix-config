@@ -218,7 +218,6 @@
   # ** XDG
   xdg.mime = {
     enable = true;
-    #addedAssociations = {
     defaultApplications = {
       # Web links
       "x-scheme-handler/http" = "firefox.desktop";
