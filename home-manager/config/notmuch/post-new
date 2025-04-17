@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# post-new --- Notmuch rules that run after notmuch new
+
+# Mailing lists
+notmuch tag +list +emacs -- from:emacs-devel@gnu.org or to:emacs-devel@gnu.org
+notmuch tag +list +emacs -- from:emacs-orgmode@gnu.org or to:emacs-orgmode@gnu.org
+notmuch tag +list +emacs +humanities -- from:emacs-humanities@gnu.org or to:emacs-humanities@gnu.org
+notmuch tag +list +emacs -- from:help-gnu-emacs@gnu.org or to:help-gnu-emacs@gnu.org
+notmuch tag +list +emacs -- from:emacs-tangents@gnu.org or to:emacs-tangents@gnu.org
+notmuch tag +list +emacs -- from:@debbugs.gnu.org or to:@debbugs.gnu.org
+notmuch tag +list +emacs -- from:@info-gnu-emacs@gnu.org or to:@info-gnu-emacs@gnu.org
+
+# Newsletters/subscriptions
+notmuch tag +sub -- from:@substack # Any substack
+notmuch tag +list +humanities +writing -- from:amugofinsights@substack.com
+notmuch tag +sub +writing -- from:poem-a-day@poets.org
+notmuch tag +sub +news -- from:nytdirect@nytimes.com
+notmuch tag +sub -- from:early-modern-world@brown.edu
+notmuch tag +sub -- from:"Aeon+Psyche Daily"
+notmuch tag +sub +news -- from:"News from Brown"
+notmuch tag +sub -- from:newsletter@thebaffler.com
+notmuch tag +sub +news -- from:email@washingtonpost.com
+notmuch tag +sub +job_search -- from:jobs-noreply@linkedin.com
+notmuch tag +sub -- from:messages-noreply@linkedin.com
+notmuch tag +sub +humanities -- from:humanities-institute@messages.brown.edu
+notmuch tag +sub +job_search -- from:handshake@notifications.joinhandshake.com
+notmuch tag +sub -- from:crc@messages.brown.edu
+notmuch tag +sub +news -- from:herald@browndailyherald.com
+notmuch tag +sub -- from:video@mailer.e-flux.com
+notmuch tag +sub +buoy -- from:buoyinspirations@64429489.mailchimpapp.com
+notmuch tag +sub +productivity -- from:@flourishedhope.com
+notmuch tag +sub +writing -- from:thehighpony@buttondown.email
+notmuch tag +sub +conspire_creative -- from:"The Profitable Author from Conspire Creative" or subject:"Your ABC Nudge, vol."
+
+# Updates
+notmuch tag +update -- from:"no.reply.alerts@chase.com"
+notmuch tag +update -- from:noreply@redditmail.com
+
+# Parents
+notmuch tag +parents -- from:christine.balintona@ascension.org or to:christine.balintona@ascension.org
+notmuch tag +parents -- from:christine.balintona@gmail.com or to:christine.balintona@gmail.com
+notmuch tag +parents -- from:CBalintona@presencehealth.org or to:CBalintona@presencehealth.org
+notmuch tag +parents -- from:reyes.jason@gmail.com or to:reyes.jason@gmail.com
+
+# Condo
+notmuch tag +condo -- from:"Belmont Row HOA"
+
+# Job search
+notmuch tag +job_search +sub -- from:jobs-listings@linkedin.com
+
+# Sent (sending from Gmail doesn't add the "sent" tag)
+notmuch tag +sent -- from:kristoffer_balintona@brown.edu or from:krisbalintona@gmail.com or from:kristoffer_balintona@alumni.brown.edu
+
+# Spam
+notmuch tag -inbox +spam +trash +sub -- from:jesse_polhemus@brown.edu # Sender of CS department mailing lists
+notmuch tag -inbox +spam +trash +sub -- from:"GiGi's Playhouse"
+notmuch tag -inbox +spam +trash -- from:"Grammarly Insights"
+notmuch tag -inbox +spam +trash +sub -- from:dsi@browndatascience.ccsend.com
+
+# Local drafts
+notmuch tag +draft -- path:drafts/
+# Mark local email drafts that are more than 1 month old for deletion. See
+# pre-new hook for how I delete these files.
+notmuch tag +delete -- path:drafts/ and date:..1month
