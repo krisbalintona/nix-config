@@ -188,6 +188,10 @@ in
         name = "hydro"; # Simple prompt
         src = hydro.src;
       }
+      {
+        name = "bass"; # Robust way to run bash commands in fish
+        src = bass.src;
+      }
     ];
     functions = {
       # 2025-04-17: Simple prompt that conveys key information.  Taken from
