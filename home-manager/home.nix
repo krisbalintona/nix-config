@@ -121,11 +121,6 @@ in
       source = config/enchant;
       recursive = true;
     };
-
-    ".config/atuin/config.toml" = {
-      source = config/atuin/config.toml;
-      force = true; # Overwrite the default one that's automatically generated
-    };
   };
 
   # * Environment
@@ -152,7 +147,25 @@ in
     forwardAgent = true;
   };
   # ** Atuin
-  programs.atuin.enable = true;
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = {
+      dialect = "us";
+      auto_sync = true;
+      update_check = true;
+      sync_frequency = "0m";
+      ctrl_n_shortcuts = true;
+      history_format = "{time}\t{command} - {directory}$\t{host}";
+      enter_accept = false;
+      common_prefix = [ "sudo" ];
+      scroll_exits = false;
+      records = true;
+    };
+    daemon = {
+      enable = false; # I prefer sync_frequency = "0m"
+    };
+  };
 
   # ** Fish
   programs.fish = {
