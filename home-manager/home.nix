@@ -131,9 +131,7 @@ in
   # * Environment
 
   # ** Variables
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  home.sessionVariables = { };
 
   # * Programs
 

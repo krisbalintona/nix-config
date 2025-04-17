@@ -87,6 +87,7 @@
     ripgrep
     unzip
     xorg.xmodmap
+    xdg-utils
 
     # Wayland
     wayland
@@ -116,6 +117,8 @@
     emacs
     libreoffice-still
     graphviz
+    evince
+    firefox
   ];
 
   # *** Fonts
@@ -203,8 +206,31 @@
   };
 
   # ** Variables
-  environment.sessionVariables = {
+  # environment.sessionVariables = {
+  environment.variables = {
     NIXOS_OZONE_WL = "1"; # Hint electron apps to use wayland
+    EDITOR = "nvim";
+    # Explicitly set these since some non-interactively called code (e.g. python
+    # libraries) use this instead of the system path
+    BROWSER = "firefox";
+  };
+
+  # ** XDG
+  xdg.mime = {
+    enable = true;
+    #addedAssociations = {
+    defaultApplications = {
+      # Web links
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+      "text/html" = "firefox.desktop";
+      "application/xhtml+xml" = "firefox.desktop";
+      # Images
+      "application/pdf" = "org.gnome.Evince.desktop";
+      "image/png" = "org.gnome.Evince.desktop";
+    };
   };
 
   # * Services
@@ -276,4 +302,12 @@
 
   # ** Fish
   programs.fish.enable = true; # Need this for settings my user's default shell to fish
+
+  # ** Firefox
+  programs.firefox.enable = true;
+
+  # ** Evince
+  programs.evince.enable = true;
+
+  # * End
 }
