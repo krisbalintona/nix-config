@@ -189,6 +189,51 @@ in
         src = hydro.src;
       }
     ];
+    functions = {
+      # 2025-04-17: Simple prompt that conveys key information.  Taken from
+      # https://github.com/strega-nil/dotfiles/blob/02582a890981040da09d89edc1b4f85cd4fa03df/fish/functions/fish_jj_prompt.fish,
+      # which is one of the prompts suggested in
+      # https://github.com/jj-vcs/jj/wiki/Fish-shell#prompt.
+      # make sure jj is installed
+      fish_jj_prompt = {
+        description = "VCS segment for JJ.";
+        body = ''
+          if ! command -sq jj
+            return 1
+          end
+          # check if we're in a jj repo
+          if ! jj root --quiet &>/dev/null
+            return 1
+          end
+
+          if test -n "$__fish_jj_prompt_bookmark_revset"
+            set prompt_bookmark_revset "$__fish_jj_prompt_bookmark_revset"
+          else
+            set prompt_bookmark_revset "@ | @-"
+          end
+
+          set current_head (jj log --color=always --no-graph \
+            -r "@" -T "change_id.shortest()")
+          set current_branch (jj log --color=always --no-graph \
+            -r "latest(($prompt_bookmark_revset) & bookmarks())" \
+            -T "bookmarks.join(' ')")
+          if test -n "$current_branch"
+            echo " ($current_head|$current_branch)"
+          else
+            echo " ($current_head)"
+          end
+        '';
+      };
+      fish_vcs_prompt = {
+        description = "Print all vcs prompts";
+        body = ''
+          fish_jj_prompt $argv
+          or fish_git_prompt $argv
+          or fish_hg_prompt $argv
+          or fish_fossil_prompt $argv
+        '';
+      };
+    };
   };
 
   # ** Jujutsu
