@@ -449,15 +449,46 @@ in
     notmuch.enable = true;
   };
 
-  # TODO 2025-04-17: Not sure if this is called before or after the first
-  # invocation of the lieer services.  If it is after, then I would need to
-  # restart those services (after these directories are created).
   # Ensure the lieer maildir structure for each account exists
   home.activation = lib.mkMerge (
+    # TODO 2025-04-17: Not sure if this is called before or after the first
+    # invocation of the lieer services.  If it is after, then I would need to
+    # restart those services (after these directories are created).
     map (name: {
       "createLieerMaildirActivation-${name}" = maildirSetupActivation name;
     }) (lib.attrNames config.accounts.email.accounts)
   );
+
+  # Ensure notmuch new is called after every lieer sync
+  systemd.user.services =
+    let
+      lieerAccounts = lib.filter (a: a.lieer.enable && a.lieer.sync.enable) (
+        lib.attrValues config.accounts.email.accounts
+      );
+      lieerAccountNames = map (a: a.name) lieerAccounts;
+      # 2025-04-17: The way lieer integration names its services
+      lieerServiceNames = map (accountName: "lieer-" + accountName + ".service") lieerAccountNames;
+    in
+    {
+      "notmuch-new-after-lieer-sync" = {
+        Unit = {
+          Description = "Run notmuch new after syncing all lieer accounts";
+          After = lieerServiceNames; # Only begin after these services are done
+        };
+
+        # TODO 2025-04-17: Add a ConditionPathExists= check for the .notmuch
+        # database directory
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.notmuch}/bin/notmuch new";
+          Environment = "NOTMUCH_CONFIG=${config.xdg.configHome}/notmuch/default/config";
+        };
+
+        Install = {
+          WantedBy = lieerServiceNames; # Start this service when any of these services start
+        };
+      };
+    };
 
   # * End
 }
