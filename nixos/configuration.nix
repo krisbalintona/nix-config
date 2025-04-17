@@ -94,17 +94,11 @@
     wayland-utils
 
     # Shell
+    fish
+    fzf
     atuin
     neovim
     keychain
-
-    # Fish
-    fish
-    fishPlugins.hydro
-    fishPlugins.fzf-fish
-    fzf
-    fishPlugins.grc
-    grc
 
     # Languages and package managers
     python3Full

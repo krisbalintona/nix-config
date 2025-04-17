@@ -168,6 +168,12 @@ in
   # ** Fish
   programs.fish = {
     enable = true;
+    shellInit = ''
+      # Sponge (automatically clean history)
+      if status is-interactive
+        set --global sponge_purge_only_on_exit true
+      end
+    '';
     plugins = with pkgs; [
       {
         name = "grc";
