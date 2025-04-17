@@ -108,6 +108,7 @@ in
     nixfmt-rfc-style
     nodePackages_latest.prettier
     nil # Nix LSP server
+    grc # For fishPlugins.grc
   ];
 
   # * Files
@@ -142,6 +143,7 @@ in
     addKeysToAgent = "yes";
     forwardAgent = true;
   };
+
   # ** Atuin
   programs.atuin = {
     enable = true;
@@ -173,18 +175,18 @@ in
         set --global sponge_purge_only_on_exit true
       end
     '';
-    plugins = with pkgs; [
+    plugins = with pkgs.fishPlugins; [
       {
-        name = "grc";
-        src = fishPlugins.grc.src;
+        name = "grc"; # Command colorizers
+        src = grc.src;
       }
       {
-        name = "z";
-        src = fishPlugins.z.src;
+        name = "z"; # Frecency directory jumping
+        src = z.src;
       }
       {
-        name = "hydro";
-        src = fishPlugins.hydro.src;
+        name = "hydro"; # Simple prompt
+        src = hydro.src;
       }
     ];
   };
