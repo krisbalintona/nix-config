@@ -88,6 +88,8 @@
     unzip
     xorg.xmodmap
     xdg-utils
+    findutils
+    mlocate
 
     # Wayland
     wayland
@@ -290,6 +292,9 @@
     wordnet
     wiktionary
   ];
+
+  # ** Locate
+  services.locate.enable = true;
 
   # * Programs
 
