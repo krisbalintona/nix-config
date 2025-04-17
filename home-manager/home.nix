@@ -238,6 +238,8 @@ in
           end
         '';
       };
+      # Add fish_jj_prompt to the list of supported VCS by the vanilla fish
+      # prompt.
       fish_vcs_prompt = {
         description = "Print all vcs prompts";
         body = ''
