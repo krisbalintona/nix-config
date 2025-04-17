@@ -113,10 +113,6 @@ in
   # * Files
   # The primary way to manage plain files
   home.file = {
-    ".config/jj/config.toml" = {
-      source = config/jj/config.toml;
-    };
-
     ".config/enchant" = {
       source = config/enchant;
       recursive = true;
@@ -188,6 +184,21 @@ in
         src = fishPlugins.fzf-fish.src;
       }
     ];
+  };
+
+  # ** Jujutsu
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Kristoffer Balintona";
+        email = "krisbalintona@gmail.com";
+      };
+      ui = {
+        editor = "nvim";
+        conflict-marker-style = "git";
+      };
+    };
   };
 
   # ** Emacs
