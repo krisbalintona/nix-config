@@ -68,6 +68,7 @@ in
   # * Nixpkgs
   nixpkgs = {
     overlays = [
+      # Emacs-overlay
       (import (
         builtins.fetchTarball {
           url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
@@ -203,6 +204,10 @@ in
         };
       }
     ];
+    # TODO 2025-04-17: Currently, on the master branch of fish, jj is
+    # integrated.  However, the current verion of fish, 4.0.1, does not include
+    # it.  Once it is, I can safely remove the fish_jj_prompt function and
+    # fish_vcs_prompt function override below.
     functions = {
       # 2025-04-17: Simple prompt that conveys key information.  Taken from
       # https://github.com/strega-nil/dotfiles/blob/02582a890981040da09d89edc1b4f85cd4fa03df/fish/functions/fish_jj_prompt.fish,
