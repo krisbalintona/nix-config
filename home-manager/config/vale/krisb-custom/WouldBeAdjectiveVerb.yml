@@ -1,0 +1,9 @@
+# Taken from https://vale.sh/explorer/would_be_jj_vb/
+extends: sequence
+message: "Did you mean '%[2]s %[3]s *to* %[4]s'?"
+level: error
+tokens:
+  - tag: MD
+  - pattern: be
+  - tag: JJ
+  - tag: VB|VBN

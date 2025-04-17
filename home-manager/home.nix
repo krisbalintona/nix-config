@@ -94,6 +94,13 @@ in
     hunspell
     hunspellDicts.en_US-large
     vale
+    valeStyles.write-good
+    valeStyles.readability
+    valeStyles.proselint
+    valeStyles.microsoft
+    valeStyles.joblint
+    valeStyles.google
+    valeStyles.alex
     harper
     yt-dlp
     hugo
@@ -117,6 +124,12 @@ in
   home.file = {
     ".config/enchant" = {
       source = config/enchant;
+      recursive = true;
+    };
+
+    ".config/vale/.vale.ini".source = config/vale/.vale.ini;
+    ".local/share/vale/styles/krisb-custom" = {
+      source = config/vale/krisb-custom;
       recursive = true;
     };
   };

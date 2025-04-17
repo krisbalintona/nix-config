@@ -1,0 +1,14 @@
+# Taken from https://vale.sh/explorer/apos_are/
+extends: sequence
+message: Did you mean "%[1]ss" instead of "%[1]s's"?
+level: error
+tokens:
+  - tag: NN
+  - pattern: "'s"
+  - pattern: are
+action:
+  name: edit
+  params:
+    - replace
+    - "'"
+    - ""
