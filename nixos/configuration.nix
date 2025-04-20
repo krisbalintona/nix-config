@@ -90,6 +90,7 @@
     xdg-utils
     findutils
     mlocate
+    wget
 
     # Wayland
     wayland
