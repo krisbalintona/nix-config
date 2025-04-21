@@ -330,6 +330,9 @@ in
         '';
       };
     };
+    shellAbbrs = {
+      m = "moar";
+    };
   };
 
   # ** Jujutsu
