@@ -84,6 +84,24 @@ in
   # * Packages
   home.packages = with pkgs; [
     zotero
+    nix-search-tv # Fuzzy search for NixOS packages and their content
+    # 2025-04-21: As recommended in
+    # https://github.com/3timeslazy/nix-search-tv?tab=readme-ov-file#fzf, we can
+    # use a custom script (provided by nix-search-tv) to integrate conveniently
+    # with fzf so provide commands like opening a homepage, package's source,
+    # and more.  For now, this is a bespoke script, so we pull directly from the
+    # GitHub in case any future updates are given.  We name this script "nts".
+    (writeShellScriptBin "nts" (
+      builtins.readFile (
+        pkgs.fetchFromGitHub {
+          owner = "3timeslazy";
+          repo = "nix-search-tv";
+          rev = "main";
+          sha256 = "sha256-fU81GVVgqxXG1xdsID2WztzdY7hNxYDBZObaNpLeMEg=";
+        }
+        + "/nixpkgs.sh"
+      )
+    ))
 
     ## Emacs stuff
     jujutsu
