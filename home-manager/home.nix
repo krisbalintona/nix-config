@@ -102,6 +102,7 @@ in
         + "/nixpkgs.sh"
       )
     ))
+    moar
 
     ## Emacs stuff
     jujutsu
@@ -157,7 +158,11 @@ in
   # * Environment
 
   # ** Variables
-  home.sessionVariables = { };
+  home.sessionVariables = {
+    # Use moar as a pager
+    MOAR = "--style tokyonight-moon --statusbar inverse --terminal-fg"; # Settings
+    PAGER = "${lib.getExe pkgs.moar}";
+  };
 
   # * Programs
 
