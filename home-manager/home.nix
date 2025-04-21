@@ -159,6 +159,21 @@ in
 
   # ** Variables
   home.sessionVariables = {
+    ## FZF settings
+    # Preview file contents using bat.  Taken from
+    # https://github.com/junegunn/fzf?tab=readme-ov-file#key-bindings-for-command-line
+    FZF_CTRL_T_OPTS = ''
+      --walker-skip .git,node_modules,target
+      --preview '${lib.getExe pkgs.bat} -n --color=always {}'
+      --bind 'ctrl-/:change-preview-window(down|hidden|)'
+    '';
+    # Print tree structure in the preview window.  Taken from
+    # https://github.com/junegunn/fzf?tab=readme-ov-file#key-bindings-for-command-line
+    FZF_ALT_C_OPTS = ''
+      --walker-skip .git,node_modules,target
+      --preview '${lib.getExe pkgs.tree} -C {}'
+    '';
+
     # Use moar as a pager
     MOAR = "--style tokyonight-moon --statusbar inverse --terminal-fg"; # Settings
     PAGER = "${lib.getExe pkgs.moar}";
@@ -193,6 +208,12 @@ in
     ];
     inheritType = "any-once";
     extraFlags = [ "--quiet" ];
+  };
+
+  # ** FZF
+  programs.fzf = {
+    enableFishIntegration = true;
+    enableBashIntegration = true;
   };
 
   # ** Atuin
