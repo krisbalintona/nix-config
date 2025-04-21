@@ -187,6 +187,32 @@
         '';
       })
       (pkgs.stdenv.mkDerivation {
+        name = "nerd-font.iosevka-term-ss11";
+        src = pkgs.fetchFromGitHub {
+          owner = "Iosevka-NerdFont";
+          repo = "IosevkaTermSS11";
+          rev = "main";
+          sha256 = "sha256-pijX0tzT8JDtrO9zriQ9V9M+VN2BlLI09sukFGWT5W8=";
+        };
+        installPhase = ''
+          mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-term-ss11
+          cp -r $src/IosevkaTermSS11/* $out/share/fonts/truetype/nerd-fonts-iosevka-term-ss11
+        '';
+      })
+      (pkgs.stdenv.mkDerivation {
+        name = "nerd-font.iosevka-ss04";
+        src = pkgs.fetchFromGitHub {
+          owner = "Iosevka-NerdFont";
+          repo = "IosevkaSS04";
+          rev = "main";
+          sha256 = "sha256-2+ytpfdywKv9ID1uThN6Esq64I8kirEOQUZea7/JYmg=";
+        };
+        installPhase = ''
+          mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-ss04
+          cp -r $src/IosevkaSS04/* $out/share/fonts/truetype/nerd-fonts-iosevka-ss04
+        '';
+      })
+      (pkgs.stdenv.mkDerivation {
         name = "nerd-font.iosevka-term-ss04";
         src = pkgs.fetchFromGitHub {
           owner = "Iosevka-NerdFont";
