@@ -31,14 +31,14 @@
     {
       settings = {
         experimental-features = "nix-command flakes"; # Enable flakes and 'nix' command
-        # flake-registry = ""; # Opinionated: disable global registry
-        # nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
+        flake-registry = ""; # Opinionated: disable global registry
+        nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
       };
       channel.enable = false; # Opinionated: disable channels because we manage package sources through flakes
 
-      # # Opinionated: make flake registry and nix path match flake inputs
-      # registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-      # nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+      # Opinionated: make flake registry and nix path match flake inputs
+      registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
 
   # * Nixpkgs
