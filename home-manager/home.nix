@@ -362,8 +362,10 @@ in
       alwaysTangle = false;
 
       extraEmacsPackages = epkgs: [
+        # Because of PATH dependencies
         epkgs.jinx # Necessary to correctly compile its C module
-        epkgs.pdf-tools
+        epkgs.pdf-tools # Avoid compilation of binary
+        # Additional
         epkgs.denote
       ];
 
