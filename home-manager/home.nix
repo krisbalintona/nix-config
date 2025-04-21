@@ -83,6 +83,8 @@ in
 
   # * Packages
   home.packages = with pkgs; [
+    zotero
+
     ## Emacs stuff
     jujutsu
     # NOTE 2025-04-12: It seems all the dicts (but not necessarily the
