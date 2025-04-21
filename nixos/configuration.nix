@@ -337,7 +337,7 @@
   # ** FZF
   programs.fzf = {
     keybindings = true;
-    fuzzyCompletion = true; # Key bindings for popular shells
+    fuzzyCompletion = false;
   };
 
   # * End
