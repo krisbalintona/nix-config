@@ -31,12 +31,19 @@
     {
       settings = {
         experimental-features = "nix-command flakes"; # Enable flakes and 'nix' command
-        flake-registry = ""; # Opinionated: disable global registry
         nix-path = config.nix.nixPath; # Workaround for https://github.com/NixOS/nix/issues/9574
+        # Disables the use of the flake registry on GitHub.  Means the system
+        # won’t pull from the global registry but means you have to maintain
+        # your own, makes it harder to discover new flakes, etc.
+        flake-registry = "";
       };
-      channel.enable = false; # Opinionated: disable channels because we manage package sources through flakes
+      # Completely disables Nix channels.  Forces package sources to come from
+      # flakes, but removes a fallback mechanism.
+      channel.enable = false;
 
-      # Opinionated: make flake registry and nix path match flake inputs
+      # Syncs system Nix registry and NIX_PATH with flake inputs.  Means that
+      # same dependencies are used whether being accessed via flakes or nix-*
+      # commands.
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };
