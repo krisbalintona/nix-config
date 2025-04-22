@@ -56,16 +56,6 @@
     overlays = [ ];
   };
 
-  # * WSL2
-  # 2025-04-12: Workaround due to a bug in WSLg causing issues using GUI tools
-  # in Wayland.  Solution taken from
-  # https://github.com/microsoft/WSL/issues/11261#issuecomment-2011901398.
-  systemd.services."user-runtime-dir@.service" = {
-    serviceConfig.ExecStart = "sh -c \"ln -fs /mnt/wslg/runtime-dir/* /run/user/%i\"";
-    serviceConfig.After = [ "wslg.target" ];
-    wantedBy = [ "wslg.target" ];
-  };
-
   # * Users
   users.users = {
     krisbalintona = {
