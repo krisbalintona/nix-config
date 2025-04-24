@@ -125,23 +125,49 @@ in
         # Install many packages, even if I don't use all of them. I can enable
         # specific rules to pick and choose what I want from these "presets".
         # Some of these are packages with rules while other are just config
-        # files; see https://vale.sh/explorer for a complete list.  Also, I
-        # think the order matters: later packages in this list override rules
+        # files; see https://vale.sh/explorer and
+        # https://github.com/topics/vale-linter-stylefor a complete list.  Also,
+        # I think the order matters: later packages in this list override rules
         # from earlier ones (see
         # https://vale.sh/docs/topics/packages/#package-ordering-and-overrides)
         styles: with styles; [
+          # See
+          # https://github.com/icewind1991/vale-nix/blob/main/styles/builder.nix
+          # for how to build rules from external repos
           proselint
           write-good
           joblint
           alex
-          # TODO 2025-04-24: I used to have these two packages' rules installed,
-          # but I don't know how to do this with Nix.  See PR to vale-nix
-          # overlay here: https://github.com/icewind1991/vale-nix/issues/1
+          # TODO 2025-04-24: I used to have Hugo's config installed (which
+          # applies to .md files), but I don't know how to do this with Nix.
+          # See PR to vale-nix overlay here:
+          # https://github.com/icewind1991/vale-nix/issues/1
           # Hugo
-          # RedHat
+          (builder rec {
+            # HACK 2025-04-24: I specify name to be the relative file path to
+            # the directory to the rules, but only because the build
+            # instructions use the name for the path.  This abuses that fact.
+            # Name is used for other (non-functional) purposes.
+            name = ".vale/styles/RedHat/";
+            owner = "redhat-documentation";
+            repo = "vale-at-red-hat";
+            version = "597";
+            rev = "v${version}";
+            sha256 = "sha256-Y5TshFG8EfcsmhEqTljxkxb2hRmfem+0njQDa/mUhmw=";
+          })
           microsoft
           google
           # readability
+          # Other packages
+          # Openly: try to emulate Grammarly
+          (builder rec {
+            name = "Openly";
+            owner = "ChrisChinchilla";
+            repo = "Openly";
+            version = "0.4.4";
+            rev = "v${version}";
+            sha256 = "sha256-Mq0+NRmgDQ7GARJjHvWxIlXX3oIzzPJqGWNf1wRWwuM=";
+          })
         ];
       vocab = {
         accept = [ ];
@@ -151,15 +177,16 @@ in
       formatOptions = {
         "*" = {
           # These must be names of the styles installed.  Be careful of
-          # capitalization, since the capitalization in Vale's documentation
-          # differs from the capitalization of the directories that the vale
-          # overlay installs.
+          # capitalization.  You can ensure the capitalization is correct by
+          # looking at the Packages= line in the config file the overlay
+          # generates (which you can see with vale ls-config).
           basedOnStyles = [
             "Vale"
             # NOTE 2024-10-05: The proselint style is just a vale-style
             # declaration of proselint's rules, not using proselint the
             # binary. Thus, it doesn't use proselint's config file
             "proselint"
+            "Openly"
             "krisb-custom"
           ];
           "Vale.Spelling" = false;
