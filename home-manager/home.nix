@@ -75,6 +75,8 @@ in
           sha256 = "05giy64csmv11p12sd6rcfdgfd1yd24w0amfmxm9dhxwizgs2c0g";
         }
       ))
+      # Vale
+      inputs.vale-nix.overlays.default
     ];
     config = {
       allowUnfree = true;
@@ -114,14 +116,76 @@ in
     nuspell
     hunspell
     hunspellDicts.en_US-large
-    vale
-    valeStyles.write-good
-    valeStyles.readability
-    valeStyles.proselint
-    valeStyles.microsoft
-    valeStyles.joblint
-    valeStyles.google
-    valeStyles.alex
+    # Read
+    # https://medium.com/valelint/introducing-vale-an-nlp-powered-linter-for-prose-63c4de31be00
+    # for an explanation of Vale and how it focuses on correcting style rather
+    # than grammar
+    (valeWithConfig {
+      packages =
+        # Install many packages, even if I don't use all of them. I can enable
+        # specific rules to pick and choose what I want from these "presets".
+        # Some of these are packages with rules while other are just config
+        # files; see https://vale.sh/explorer for a complete list.  Also, I
+        # think the order matters: later packages in this list override rules
+        # from earlier ones (see
+        # https://vale.sh/docs/topics/packages/#package-ordering-and-overrides)
+        styles: with styles; [
+          proselint
+          write-good
+          joblint
+          alex
+          # TODO 2025-04-24: I used to have these two packages' rules installed,
+          # but I don't know how to do this with Nix.  See PR to vale-nix
+          # overlay here: https://github.com/icewind1991/vale-nix/issues/1
+          # Hugo
+          # RedHat
+          microsoft
+          google
+          # readability
+        ];
+      vocab = {
+        accept = [ ];
+        reject = [ ];
+      };
+      minAlertLevel = "suggestion"; # Can be suggestion, warning, or error
+      formatOptions = {
+        "*" = {
+          # These must be names of the styles installed.  Be careful of
+          # capitalization, since the capitalization in Vale's documentation
+          # differs from the capitalization of the directories that the vale
+          # overlay installs.
+          basedOnStyles = [
+            "Vale"
+            # NOTE 2024-10-05: The proselint style is just a vale-style
+            # declaration of proselint's rules, not using proselint the
+            # binary. Thus, it doesn't use proselint's config file
+            "proselint"
+            "krisb-custom"
+          ];
+          "Vale.Spelling" = false;
+          "proselint.Very" = "suggestion";
+          "proselint.But" = false;
+          "proselint.GenderBias" = "warning";
+          "proselint.Hyperbole" = "warning";
+          "write-good.Passive" = "suggestion";
+          "Google.LyHyphens" = true;
+          "Google.OxfordComma" = true;
+          "Google.Periods" = true;
+          "Google.Units" = true;
+          "Google.Ordinal" = true;
+          "Microsoft.Wordiness" = true;
+          "Microsoft.Ordinal" = true;
+          "Microsoft.Negative" = true;
+          "Microsoft.Dashes" = true;
+          "RedHat.Abbreviations" = true;
+          "RedHat.Using" = true;
+        };
+        "*.org" = {
+          "proselint.Annotations" = false;
+          "proselint.Very" = false;
+        };
+      };
+    })
     harper
     yt-dlp
     hugo
@@ -143,13 +207,12 @@ in
   # * Files
   # The primary way to manage plain files
   home.file = {
-    ".config/enchant" = {
+    "${config.xdg.configHome}/enchant" = {
       source = config/enchant;
       recursive = true;
     };
 
-    ".config/vale/.vale.ini".source = config/vale/.vale.ini;
-    ".local/share/vale/styles/krisb-custom" = {
+    "${config.xdg.dataHome}/vale/styles/krisb-custom" = {
       source = config/vale/krisb-custom;
       recursive = true;
     };
