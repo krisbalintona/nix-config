@@ -10,15 +10,15 @@ let
   maildirSetupActivation =
     accountName:
     let
-      pathSegments = [
+      pathSegments = with config.accounts.email; [
         # This is an absolute path, like: /home/krisbalintona/Documents/emails
-        "${config.accounts.email.maildirBasePath}"
+        "${maildirBasePath}"
         # This is a relative path, like: personal
-        "${config.accounts.email.accounts.${accountName}.maildir.path}"
+        "${accounts.${accountName}.maildir.path}"
       ];
-      fullPath = lib.concatStringsSep "/" pathSegments;
-      mailPath = "${fullPath}/mail";
-      credentialsPath = "${fullPath}/.credentials.gmailieer.json";
+      accountPath = lib.concatStringsSep "/" pathSegments;
+      mailPath = "${accountPath}/mail";
+      credentialsPath = "${accountPath}/.credentials.gmailieer.json";
     in
     # Lieer expects the mail/cur, mail/new, and mail/tmp subdirectories in the
     # path where the .gmailieer.json file (created by gmi) is found.
@@ -36,12 +36,12 @@ let
     # the .credentials.gmaileer.json to avoid re-authenticating.
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       if [ ! -d "${mailPath}" ]; then
-        echo "Creating lieer maildir for account \"${accountName}\" exists at ${fullPath}..."
+        echo "Creating lieer maildir for account \"${accountName}\" exists at ${accountPath}..."
         mkdir -p ${mailPath}/{cur,new,tmp}
       fi
       if [ ! -f "${credentialsPath}" ]; then
         echo "Opening browser for lieer Google authentication..."
-        (cd ${fullPath} && ${pkgs.lieer}/bin/gmi auth)
+        (cd ${accountPath} && ${pkgs.lieer}/bin/gmi auth)
       fi
     '';
 in
@@ -139,34 +139,36 @@ in
     }) (lib.attrNames config.accounts.email.accounts)
   );
 
-  # Ensure notmuch new is called after every lieer sync
   systemd.user.services =
+    # Ensure notmuch new is called after every lieer sync
+    # systemd.user.services =
     let
       lieerAccounts = lib.filter (a: a.lieer.enable && a.lieer.sync.enable) (
         lib.attrValues config.accounts.email.accounts
       );
       lieerAccountNames = map (a: a.name) lieerAccounts;
-      # 2025-04-17: The way lieer integration names its services
-      lieerServiceNames = map (accountName: "lieer-" + accountName + ".service") lieerAccountNames;
+      # Modify these services
+      modifyAccountService =
+        accountName:
+        let
+          # 2025-04-17: The way lieer integration names its services (without .service suffix)
+          serviceName = "lieer-" + accountName;
+          pathSegments = with config.accounts.email; [
+            # This is an absolute path, like: /home/krisbalintona/Documents/emails
+            "${maildirBasePath}"
+            # This is a relative path, like: personal
+            "${accounts.${accountName}.maildir.path}"
+          ];
+          accountPath = lib.concatStringsSep "/" pathSegments;
+        in
+        {
+          name = serviceName;
+          value.Service = {
+            # ExecStart cannot be multi-line
+            ExecStart = pkgs.lib.mkForce ''${pkgs.bash}/bin/bash -c "if ! ${config.programs.lieer.package}/bin/gmi sync; then echo 'Sync failed! Salvaging state...'; cp ${accountPath}/.state.gmailieer.json{.bak,}; fi"'';
+            ExecStartPost = "${pkgs.notmuch}/bin/notmuch new";
+          };
+        };
     in
-    {
-      "notmuch-new-after-lieer-sync" = {
-        Unit = {
-          Description = "Run notmuch new after syncing all lieer accounts";
-          After = lieerServiceNames; # Only begin after these services are done
-        };
-
-        # TODO 2025-04-17: Add a ConditionPathExists= check for the .notmuch
-        # database directory
-        Service = {
-          Type = "oneshot";
-          ExecStart = "${pkgs.notmuch}/bin/notmuch new";
-          Environment = "NOTMUCH_CONFIG=${config.xdg.configHome}/notmuch/default/config";
-        };
-
-        Install = {
-          WantedBy = lieerServiceNames; # Start this service when any of these services start
-        };
-      };
-    };
+    lib.listToAttrs (map modifyAccountService lieerAccountNames);
 }
