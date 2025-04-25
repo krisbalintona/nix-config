@@ -129,11 +129,15 @@ in
         # https://github.com/topics/vale-linter-stylefor a complete list.  Also,
         # I think the order matters: later packages in this list override rules
         # from earlier ones (see
-        # https://vale.sh/docs/topics/packages/#package-ordering-and-overrides)
+        # https://vale.sh/docs/topics/packages/#package-ordering-and-overrides).
+        #
+        # See
+        # https://github.com/icewind1991/vale-nix/blob/main/styles/builder.nix
+        # for how to build rules from external repos
         styles: with styles; [
-          # See
-          # https://github.com/icewind1991/vale-nix/blob/main/styles/builder.nix
-          # for how to build rules from external repos
+          # NOTE 2024-10-05: The proselint style is just a vale-style
+          # declaration of proselint's rules, not using proselint the
+          # binary. Thus, it doesn't use proselint's config file
           proselint
           write-good
           joblint
@@ -182,13 +186,11 @@ in
           # generates (which you can see with vale ls-config).
           basedOnStyles = [
             "Vale"
-            # NOTE 2024-10-05: The proselint style is just a vale-style
-            # declaration of proselint's rules, not using proselint the
-            # binary. Thus, it doesn't use proselint's config file
             "proselint"
             "Openly"
             "krisb-custom"
           ];
+          "Openly.Spelling" = false;
           "Vale.Spelling" = false;
           "proselint.Very" = "suggestion";
           "proselint.But" = false;
@@ -208,6 +210,8 @@ in
           "RedHat.Using" = true;
         };
         "*.org" = {
+          "Openly.Titles" = false;
+          "Openly.E-Prime" = false;
           "proselint.Annotations" = false;
           "proselint.Very" = false;
         };

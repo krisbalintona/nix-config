@@ -6,7 +6,7 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    vale-nix.url = "github:icewind1991/vale-nix";
+    vale-nix.url = "github:krisbalintona/vale-nix";
   };
 
   outputs =

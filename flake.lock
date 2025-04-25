@@ -151,15 +151,15 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1711993008,
-        "narHash": "sha256-BegtmJT+c+xqvnPrjY08YC/XF/uBuD7DyPfQ5/4ikxY=",
-        "owner": "icewind1991",
+        "lastModified": 1745544650,
+        "narHash": "sha256-idfEP8c+MwcghiGyIU6SbtsDclFeL8Szustriyf0x30=",
+        "owner": "krisbalintona",
         "repo": "vale-nix",
-        "rev": "cfa8b99c6aae2848bd45385624750c549759aa80",
+        "rev": "4e8afa3345f8648f7a4775100dbedb7e0cde44a7",
         "type": "github"
       },
       "original": {
-        "owner": "icewind1991",
+        "owner": "krisbalintona",
         "repo": "vale-nix",
         "type": "github"
       }
