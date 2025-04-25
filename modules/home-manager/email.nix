@@ -46,6 +46,11 @@ let
     '';
 in
 {
+  home.packages = with pkgs; [
+    lieer
+    notmuch
+  ];
+
   programs.lieer.enable = true;
   services.lieer.enable = true;
   programs.notmuch = {

@@ -74,9 +74,7 @@
     yt-dlp
     hugo
     mermaid-cli
-    msmtp
     notmuch
-    lieer
     texlivePackages.latexmk
     texliveFull # To cover every case
     # Coding
