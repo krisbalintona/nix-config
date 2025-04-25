@@ -126,7 +126,7 @@ in
     aspellDicts.la
     nuspell
     hunspell
-    hunspellDicts.en_US
+    hunspellDicts.en_US # Nuspell relies on hunspell dictionaries; need this otherwise Enchant falls back on aspell
     # Read
     # https://medium.com/valelint/introducing-vale-an-nlp-powered-linter-for-prose-63c4de31be00
     # for an explanation of Vale and how it focuses on correcting style rather
@@ -137,21 +137,19 @@ in
 
   home.file = {
     "${config.xdg.configHome}/enchant/enchant.ordering".source = config/enchant/enchant.ordering;
-    # "${config.xdg.configHome}/enchant/enchant.ordering".source =
-    #   ../modules/home-manager/config/enchant/enchant.ordering;
-    # "${config.xdg.configHome}/enchant" = {
-    #   source = config/enchant;
-    #   recursive = true;
-    # };
 
     "${config.xdg.configHome}/vale/.vale.ini".source = "${krisbValeWithConfig}/.vale.ini";
     "${config.xdg.dataHome}/vale/styles/krisb-custom" = {
-      # source = ../modules/home-manager/config/vale/krisb-custom;
       source = config/vale/krisb-custom;
       recursive = true;
     };
   };
 
+  # Symlink Enchant directories.  We do it manually rather than with home.file
+  # because Jinx, in Emacs, fails to write to the symlinked files.
+  # Additionally, even if they were successfully written, those files are
+  # containerized within nix store generations -- they changes would not
+  # persist.  Therefore, this is the solution I've found.
   home.activation.linkEnchantDictionaries = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Linking .dic and .exc files to ${config.xdg.configHome}/enchant/..."
     src="${config/enchant}"
