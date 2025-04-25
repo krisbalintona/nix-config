@@ -1,3 +1,4 @@
+# Template Nix structure taken from https://github.com/Misterio77/nix-starter-configs
 {
   description = "My nix config";
 
