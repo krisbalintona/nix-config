@@ -5,4 +5,5 @@
   # List your module files here
   email = import ./email.nix;
   spellingAndGrammar = import ./spellingAndGrammar.nix;
+  emacs = import ./emacs.nix;
 }

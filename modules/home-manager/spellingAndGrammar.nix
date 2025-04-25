@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   config,
   pkgs,
@@ -109,6 +110,13 @@ let
   );
 in
 {
+  nixpkgs = {
+    overlays = [
+      # Vale
+      inputs.vale-nix.overlays.default
+    ];
+  };
+
   home.packages = with pkgs; [
     # NOTE 2025-04-12: It seems all the dicts (but not necessarily the
     # dictionaries for the language(s) I use) need to be installed for jinx to
