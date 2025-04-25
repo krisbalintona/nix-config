@@ -22,13 +22,6 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 
-  # * Imports
-  imports = with outputs.homeManagerModules; [
-    email
-    spellingAndGrammar
-    emacs
-  ];
-
   # * Nixpkgs
   nixpkgs = {
     overlays = [ ];
@@ -261,6 +254,13 @@
       };
     };
   };
+
+  # * Imports
+  imports = with outputs.homeManagerModules; [
+    email
+    spellingAndGrammar
+    emacs
+  ];
 
   # * End
 }
