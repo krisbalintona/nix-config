@@ -152,9 +152,12 @@ in
   # persist.  Therefore, this is the solution I've found.
   home.activation.linkEnchantDictionaries = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     echo "Linking .dic and .exc files to ${config.xdg.configHome}/enchant/..."
-    src="${config/enchant}"
+    src="$HOME/nix-config/modules/home-manager/config/enchant"
     dest="${config.xdg.configHome}/enchant"
     mkdir -p "$dest"
+    for file in "$dest"/*.dic "$dest"/*.exc; do
+      rm "$file"
+    done
     for file in "$src"/*.dic "$src"/*.exc; do
       [ -e "$file" ] || continue
       ln -sf "$file" "$dest/$(basename "$file")"
