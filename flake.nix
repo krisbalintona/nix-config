@@ -8,6 +8,7 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     vale-nix.url = "github:krisbalintona/vale-nix";
+    impurity.url = "github:outfoxxed/impurity.nix";
   };
 
   outputs =
@@ -16,6 +17,7 @@
       nixpkgs,
       nixos-wsl,
       home-manager,
+      impurity,
       ...
     }@inputs:
     let
@@ -65,6 +67,10 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
+            {
+              imports = [ impurity.nixosModules.impurity ];
+              impurity.configRoot = self;
+            }
             ./home-manager/home.nix
           ];
         };

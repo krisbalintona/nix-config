@@ -37,6 +37,21 @@
         "type": "github"
       }
     },
+    "impurity": {
+      "locked": {
+        "lastModified": 1689836741,
+        "narHash": "sha256-82KeRg2sAqDXCdzVs8P8GoqVaPsZjkWgrfsj6kgOLTY=",
+        "owner": "outfoxxed",
+        "repo": "impurity.nix",
+        "rev": "bbc41b69ab5485cd55aa315d08cff865781d3913",
+        "type": "github"
+      },
+      "original": {
+        "owner": "outfoxxed",
+        "repo": "impurity.nix",
+        "type": "github"
+      }
+    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -107,6 +122,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "impurity": "impurity",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
         "vale-nix": "vale-nix"
