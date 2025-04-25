@@ -139,9 +139,8 @@ in
     }) (lib.attrNames config.accounts.email.accounts)
   );
 
+  # Ensure notmuch new is called after every lieer sync
   systemd.user.services =
-    # Ensure notmuch new is called after every lieer sync
-    # systemd.user.services =
     let
       lieerAccounts = lib.filter (a: a.lieer.enable && a.lieer.sync.enable) (
         lib.attrValues config.accounts.email.accounts
