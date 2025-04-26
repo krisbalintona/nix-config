@@ -3,7 +3,6 @@
   lib,
   config,
   pkgs,
-  impurity,
   ...
 }:
 let
@@ -109,38 +108,6 @@ let
       };
     }
   );
-
-  # linkEnchantFiles =
-  #   dir:
-  #   lib.mapAttrs'
-  #     (
-  #       name: _type:
-  #       lib.nameValuePair "enchant/${name}" {
-  #         source = impurity.link "${dir}/${name}";
-  #       }
-  #     )
-  #     (
-  #       lib.attrsets.filterAttrs (
-  #         name: _type: lib.strings.hasSuffix ".dic" name || lib.strings.hasSuffix ".exc" name
-  #       ) (builtins.readDir dir)
-  #     );
-  linkEnchantFiles =
-    dir:
-    let
-      fullDir = "${impurity.configRoot}/${dir}";
-    in
-    lib.mapAttrs'
-      (
-        name: _type:
-        lib.nameValuePair "enchant/${name}" {
-          source = impurity.link "${fullDir}/${name}";
-        }
-      )
-      (
-        lib.filterAttrs (name: _type: lib.hasSuffix ".dic" name || lib.hasSuffix ".exc" name) (
-          builtins.readDir fullDir
-        )
-      );
 in
 {
   nixpkgs = {
@@ -178,28 +145,21 @@ in
     };
   };
 
-  # Symlink Enchant directories.  We symlink the files directly rather than with home.file
+  # Symlink Enchant directories.  We do it manually rather than with home.file
   # because Jinx, in Emacs, fails to write to the symlinked files.
   # Additionally, even if they were successfully written, those files are
   # containerized within nix store generations -- they changes would not
   # persist.  Therefore, this is the solution I've found.
-  #
-  # An ergonomic solution I've found has been with impurity
-  # (https://github.com/outfoxxed/impurity.nix).  Programmatically do something
-  # like:
-  #
-  #   xdg.configFile."enchant/en_US.dic".source = impurity.link ./config/enchant/en_US.dic;
-  xdg.configFile = builtins.listToAttrs (
-    let
-      enchantDir = ./config/enchant; # Path relative to this file
-      filesInEnchantDir = builtins.attrNames (builtins.readDir enchantDir);
-      dictFileNames = builtins.filter (
-        name: lib.hasSuffix ".dic" name || lib.hasSuffix ".exc" name
-      ) filesInEnchantDir;
-    in
-    builtins.map (name: {
-      name = "enchant/${name}";
-      value.source = impurity.link (enchantDir + "/${name}");
-    }) dictFileNames
-  );
+  home.activation.linkEnchantDictionaries = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    echo "Linking .dic and .exc files to ${config.xdg.configHome}/enchant/..."
+    src="$HOME/nix-config/modules/home-manager/config/enchant"
+    dest="${config.xdg.configHome}/enchant"
+    mkdir -p "$dest"
+    for file in "$dest"/*.dic "$dest"/*.exc; do
+      rm "$file"
+    done
+    for file in "$src"/*.dic "$src"/*.exc; do
+      [ -e "$file" ] || continue
+      ln -sf "$file" "$dest/$(basename "$file")"
+    done'';
 }
