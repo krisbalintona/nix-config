@@ -51,14 +51,14 @@
         src = pkgs.fetchFromGitHub {
           owner = "emacs-mirror";
           repo = "emacs";
-          rev = "191b4cd9a76";
+          rev = "b1407b41a16";
           # Can find the sha256 by either passing an empty string and seeing
           # what home-manager switch reports the correct sha256 to be, or
           # running in the CLI something in the form of
           #   nix flake prefetch <source>:<owner>/<repo>/<rev>
           # For example:
           #   nix flake prefetch github:emacs-mirror/emacs/8c411381c69
-          sha256 = "sha256-OnDm0AQJ0Kh4flE2qAPzTpXjTxnzUv9Rx15aTb7Jj+o=";
+          sha256 = "sha256-5RMTRODnCa38iZQ28IBmA+vXh6iy10mAZwhQxwaW3UI=";
         };
         # C compile flags
         NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -O2 -march=native";
