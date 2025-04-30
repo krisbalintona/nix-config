@@ -51,14 +51,14 @@
         src = pkgs.fetchFromGitHub {
           owner = "emacs-mirror";
           repo = "emacs";
-          rev = "b1407b41a16";
+          rev = "343f0c44f35";
           # Can find the sha256 by either passing an empty string and seeing
           # what home-manager switch reports the correct sha256 to be, or
           # running in the CLI something in the form of
           #   nix flake prefetch <source>:<owner>/<repo>/<rev>
           # For example:
           #   nix flake prefetch github:emacs-mirror/emacs/8c411381c69
-          sha256 = "sha256-5RMTRODnCa38iZQ28IBmA+vXh6iy10mAZwhQxwaW3UI=";
+          sha256 = "sha256-ecID1ZtE/suz0K/nPX0kbJEHoBcf/FutfubJ+WRj5ZY=";
         };
         # C compile flags
         NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -O2 -march=native";
@@ -86,7 +86,6 @@
       alwaysTangle = false;
 
       extraEmacsPackages = epkgs: [
-        # Because of PATH dependencies
         epkgs.jinx # Necessary to correctly compile its C module
         epkgs.pdf-tools # Avoid compilation of binary
         # Additional
