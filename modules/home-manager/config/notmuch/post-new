@@ -33,6 +33,7 @@ notmuch tag +sub +productivity -- from:@flourishedhope.com
 notmuch tag +sub +writing -- from:thehighpony@buttondown.email
 notmuch tag +sub +conspire_creative -- from:"The Profitable Author from Conspire Creative" or subject:"Your ABC Nudge, vol."
 notmuch tag +sub +crc -- from:"Brown University Curricular Resource Center"
+notmuch tag +sub +productivity -- from:dinigroup@kouroshdini.com
 
 # Updates
 notmuch tag +update -- from:"no.reply.alerts@chase.com"
