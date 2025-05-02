@@ -31,6 +31,7 @@
     nodePackages_latest.prettier
     nil # Nix LSP server
     grc # For fishPlugins.grc
+    pdftk
   ];
 
   services.emacs.package = pkgs.emacsGit; # Use emacs-overlay for the emacs daemon
