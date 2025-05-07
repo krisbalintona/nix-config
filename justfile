@@ -3,11 +3,14 @@
 # Use bash for shell commands
 set shell := ["bash", "-c"]
 
-# * Common commands
+# * General commands
 
 # List all the just commands
 default:
     @just --list
+
+update:
+    nix flake update --flake .
 
 # * Home-manager commands
 
