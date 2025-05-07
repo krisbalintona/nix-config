@@ -170,7 +170,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaAile";
           rev = "main";
-          sha256 = "sha256-QmRFp8Il05w5naWVpviJNLqXSXDDzxKLQnsrkSGfu04=";
+          sha256 = "sha256-1Crs//34qFw45DO7IzksNXGDN1YJNqc6lPU9fuVwLQA=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-aile
@@ -183,7 +183,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaSS11";
           rev = "main";
-          sha256 = "sha256-FXyHa1wJiexplmjtKDX/b2d/P57UURMFPaolOmO9q2s=";
+          sha256 = "sha256-Dt48F8sFSxSUk2YiWC1Ivfch8OeryCMl9zzussD2SO4=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-ss11
@@ -196,7 +196,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaTermSS11";
           rev = "main";
-          sha256 = "sha256-pijX0tzT8JDtrO9zriQ9V9M+VN2BlLI09sukFGWT5W8=";
+          sha256 = "sha256-bNN7WTgddu8nPN/mdeOfeZPYk2I8Iio0ZSYddaAp0wY=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-term-ss11
@@ -209,7 +209,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaSS04";
           rev = "main";
-          sha256 = "sha256-2+ytpfdywKv9ID1uThN6Esq64I8kirEOQUZea7/JYmg=";
+          sha256 = "sha256-enquBElBAA21TkWDlupVSCw0r7OQKE05I7aGInrpajA=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-ss04
@@ -222,7 +222,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaTermSS04";
           rev = "main";
-          sha256 = "sha256-4RrAIIHkuvX8/sZNrkLeOfv/uN7d89trmIa2F6xC28I=";
+          sha256 = "sha256-8CNUgALQBxBTbjFkOs0wSrS9WP4wc2ICxRBzBjC2dzE=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-term-ss04
