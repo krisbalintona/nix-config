@@ -250,7 +250,7 @@
         email = "krisbalintona@gmail.com";
       };
       ui = {
-        editor = "nvim";
+        editor = "emacsclient -a '${lib.getExe pkgs.neovim}' -r";
         conflict-marker-style = "git";
       };
     };
