@@ -52,7 +52,7 @@ notmuch tag +condo -- from:"Belmont Row HOA"
 notmuch tag +job_search +sub -- from:jobs-listings@linkedin.com
 
 # Sent (sending from Gmail doesn't add the "sent" tag)
-notmuch tag +sent -- from:kristoffer_balintona@brown.edu or from:krisbalintona@gmail.com or from:kristoffer_balintona@alumni.brown.edu
+notmuch tag +sent -- "(from:kristoffer_balintona@brown.edu or from:krisbalintona@gmail.com or from:kristoffer_balintona@alumni.brown.edu) and not path:drafts/**"
 
 # Spam
 notmuch tag -inbox +spam +trash +sub -- from:jesse_polhemus@brown.edu # Sender of CS department mailing lists
@@ -61,7 +61,7 @@ notmuch tag -inbox +spam +trash -- from:"Grammarly Insights"
 notmuch tag -inbox +spam +trash +sub -- from:dsi@browndatascience.ccsend.com
 
 # Local drafts
-notmuch tag +draft -- path:drafts/
+notmuch tag +draft -inbox -unread -- path:drafts/**
 # Mark local email drafts that are more than 1 month old for deletion. See
 # pre-new hook for how I delete these files.
 notmuch tag +delete -- path:drafts/ and date:..1month
