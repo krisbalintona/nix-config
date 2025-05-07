@@ -151,11 +151,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1745558673,
-        "narHash": "sha256-9NG2Cuj7AatuLMDjwzEIMRaJ8LWnvVW3qX924wJZtv4=",
+        "lastModified": 1746591355,
+        "narHash": "sha256-7beJbnC1XWfZ2LuhlS/nyGeBaK5DZbzhqFNcbyLGFDM=",
         "owner": "krisbalintona",
         "repo": "vale-nix",
-        "rev": "3cfd5e552bfadcbddc8c33b3b105b420fdd5b36d",
+        "rev": "971e65df0a8ee8432a2063ea964b53eafe2f9481",
         "type": "github"
       },
       "original": {

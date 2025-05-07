@@ -37,31 +37,13 @@ let
           # See PR to vale-nix overlay here:
           # https://github.com/icewind1991/vale-nix/issues/1
           # Hugo
-          (builder rec {
-            # HACK 2025-04-24: I specify name to be the relative file path to
-            # the directory to the rules, but only because the build
-            # instructions use the name for the path.  This abuses that fact.
-            # Name is used for other (non-functional) purposes.
-            name = ".vale/styles/RedHat/";
-            owner = "redhat-documentation";
-            repo = "vale-at-red-hat";
-            version = "597";
-            rev = "v${version}";
-            sha256 = "sha256-Y5TshFG8EfcsmhEqTljxkxb2hRmfem+0njQDa/mUhmw=";
-          })
+          redhat
           microsoft
           google
           # readability
           # Other packages
           # Openly: try to emulate Grammarly
-          (builder rec {
-            name = "Openly";
-            owner = "ChrisChinchilla";
-            repo = "Openly";
-            version = "0.4.4";
-            rev = "v${version}";
-            sha256 = "sha256-Mq0+NRmgDQ7GARJjHvWxIlXX3oIzzPJqGWNf1wRWwuM=";
-          })
+          openly
         ];
       vocab = {
         accept = [ ];
