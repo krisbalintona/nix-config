@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   config,
   pkgs,
@@ -7,12 +8,7 @@
 {
   nixpkgs = {
     overlays = [
-      (import (
-        builtins.fetchTarball {
-          url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-          sha256 = "sha256-Gun6JAQos+RmuK/qKufgDaTUTgCEHF9Wacn3t9BVIeU=";
-        }
-      ))
+      inputs.emacs-overlay.overlays.default
     ];
   };
 
