@@ -60,8 +60,6 @@ in
     };
     hooks = {
       preNew = ''
-        #!/bin/bash
-
         # pre-new --- Notmuch rules that run after notmuch new
 
         # Actually delete emails with "deleted" tag. Taken from
