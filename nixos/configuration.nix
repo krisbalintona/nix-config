@@ -170,7 +170,7 @@
           owner = "Iosevka-NerdFont";
           repo = "IosevkaAile";
           rev = "main";
-          sha256 = "sha256-1Crs//34qFw45DO7IzksNXGDN1YJNqc6lPU9fuVwLQA=";
+          sha256 = "sha256-m0AwTLNAZONHbRG/BXAYZayamG59hYT89/DyY3+edbY=";
         };
         installPhase = ''
           mkdir -p $out/share/fonts/truetype/nerd-fonts-iosevka-aile
