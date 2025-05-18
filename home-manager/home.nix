@@ -108,7 +108,7 @@
     enableFishIntegration = true;
     keys = [ "id_ed25519" ];
     inheritType = "any-once";
-    extraFlags = [ "--quiet" ];
+    extraFlags = [ "--quiet" "--noask" ];
   };
 
   # ** FZF
