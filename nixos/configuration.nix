@@ -158,6 +158,8 @@
       nerd-fonts.hack
       nerd-fonts.ubuntu
       nerd-fonts.overpass
+      # TODO 2025-05-18: Integrate this into emacs.nix if possible,
+      # since these fonts are specifically used there.
       # Nerd-fonts versions of Iosevka variants.  See
       # https://github.com/Iosevka-NerdFont for all available fonts and their
       # respective repositories.  Nix implementation inspired by
